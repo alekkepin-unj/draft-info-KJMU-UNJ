@@ -1,0 +1,898 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>KJMU — Kartu Jakarta Mahasiswa Unggul</title>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --navy:     #0B1F4F;
+      --navy-mid: #162E6E;
+      --gold:     #C8A84B;
+      --gold-lt:  #E8C96A;
+      --mist:     #F2F5FB;
+      --white:    #FFFFFF;
+      --forest:   #1C6B3A;
+      --text:     #1A1A2E;
+      --muted:    #5A6480;
+      --border:   #D8DFEE;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--white);
+      color: var(--text);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: sticky; top: 0; z-index: 100;
+      background: var(--navy);
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 5vw; height: 60px;
+      border-bottom: 2px solid rgba(200,168,75,.3);
+    }
+    .nav-logo {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-weight: 800; font-size: 1rem;
+      color: var(--white); letter-spacing: -.02em;
+    }
+    .nav-logo span { color: var(--gold); }
+    .nav-links { display: flex; gap: 28px; list-style: none; }
+    .nav-links a {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: .8rem; font-weight: 600;
+      color: rgba(255,255,255,.65);
+      text-decoration: none; letter-spacing: .05em; text-transform: uppercase;
+      transition: color .2s;
+    }
+    .nav-links a:hover { color: var(--gold); }
+
+    /* ── HERO ── */
+    .hero {
+      background: var(--navy);
+      min-height: 90vh;
+      display: grid; grid-template-columns: 1fr 1fr;
+      align-items: center; gap: 60px;
+      padding: 80px 5vw; position: relative; overflow: hidden;
+    }
+    .hero::before {
+      content: '';
+      position: absolute; bottom: -60px; right: -60px;
+      width: 500px; height: 500px; border-radius: 50%;
+      background: radial-gradient(circle, rgba(200,168,75,.07) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .hero-eyebrow {
+      display: inline-flex; align-items: center; gap: 8px;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: .72rem; font-weight: 700;
+      letter-spacing: .14em; text-transform: uppercase;
+      color: var(--gold); margin-bottom: 20px;
+    }
+    .hero-eyebrow::before {
+      content: ''; display: block;
+      width: 24px; height: 2px; background: var(--gold);
+    }
+    .hero-title {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: clamp(2.4rem, 5vw, 3.8rem);
+      font-weight: 800; line-height: 1.08;
+      letter-spacing: -.035em; color: var(--white); margin-bottom: 24px;
+    }
+    .hero-title .gold { color: var(--gold); }
+    .hero-desc {
+      font-size: 1rem; color: rgba(255,255,255,.62);
+      max-width: 440px; margin-bottom: 36px; line-height: 1.75;
+    }
+    .hero-cta {
+      display: inline-flex; align-items: center; gap: 10px;
+      background: var(--gold); color: var(--navy);
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-weight: 700; font-size: .9rem;
+      text-decoration: none; padding: 14px 28px; border-radius: 6px;
+      transition: background .2s, transform .15s;
+    }
+    .hero-cta:hover { background: var(--gold-lt); transform: translateY(-1px); }
+    .hero-cta svg { transition: transform .2s; }
+    .hero-cta:hover svg { transform: translateX(3px); }
+
+    /* ── KJMU CARD (signature element) ── */
+    .card-wrap {
+      display: flex; justify-content: center; align-items: center;
+      position: relative; z-index: 2;
+    }
+    .card-stage { position: relative; }
+    .card-shadow {
+      position: absolute;
+      width: 360px; height: 220px; border-radius: 18px;
+      background: linear-gradient(135deg, var(--gold), #A07830);
+      transform: rotate(-3deg) translate(10px, 14px);
+      opacity: .2;
+    }
+    .kjmu-card {
+      width: 360px; height: 220px; border-radius: 18px;
+      background: linear-gradient(135deg, #162E6E 0%, #0B1F4F 55%, #0A2960 100%);
+      border: 1px solid rgba(200,168,75,.4);
+      box-shadow: 0 30px 80px rgba(0,0,0,.55), inset 0 1px 0 rgba(255,255,255,.08);
+      padding: 26px 28px 22px; position: relative; overflow: hidden;
+      transform: rotate(-3deg);
+      transition: transform .4s ease;
+    }
+    .kjmu-card:hover { transform: rotate(0deg) scale(1.02); }
+    .kjmu-card::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: repeating-linear-gradient(
+        45deg, transparent, transparent 40px,
+        rgba(200,168,75,.025) 40px, rgba(200,168,75,.025) 80px
+      );
+    }
+    .kjmu-card::after {
+      content: '';
+      position: absolute; bottom: -80px; right: -80px;
+      width: 230px; height: 230px; border-radius: 50%;
+      border: 40px solid rgba(200,168,75,.07);
+    }
+    .c-top {
+      display: flex; justify-content: space-between;
+      align-items: flex-start; margin-bottom: 22px;
+    }
+    .c-badge {
+      background: var(--gold); color: var(--navy);
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-weight: 800; font-size: .62rem; letter-spacing: .12em;
+      padding: 3px 8px; border-radius: 3px; display: inline-block;
+    }
+    .c-gov {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: .52rem; color: rgba(255,255,255,.4);
+      letter-spacing: .06em; text-transform: uppercase; margin-top: 5px;
+    }
+    .c-chip {
+      width: 36px; height: 27px;
+      background: linear-gradient(135deg, #C8A84B, #E8C96A, #A07830);
+      border-radius: 4px; position: relative; overflow: hidden;
+    }
+    .c-chip::before {
+      content: ''; position: absolute; top: 50%; left: 0; right: 0;
+      height: 1px; background: rgba(0,0,0,.25); transform: translateY(-50%);
+    }
+    .c-chip::after {
+      content: ''; position: absolute; top: 0; bottom: 0; left: 50%;
+      width: 1px; background: rgba(0,0,0,.25); transform: translateX(-50%);
+    }
+    .c-name {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: .95rem; font-weight: 700;
+      color: var(--white); position: relative; z-index: 1;
+    }
+    .c-sub {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: .58rem; color: var(--gold);
+      letter-spacing: .1em; text-transform: uppercase; margin-top: 3px;
+    }
+    .c-bottom {
+      display: flex; justify-content: space-between; align-items: flex-end;
+      margin-top: 18px; position: relative; z-index: 1;
+    }
+    .c-amt-label { font-size: .5rem; color: rgba(255,255,255,.4); letter-spacing: .1em; text-transform: uppercase; }
+    .c-amt-value {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 1.1rem; font-weight: 800; color: var(--gold); letter-spacing: -.02em;
+    }
+    .c-amt-sub { font-size: .52rem; color: rgba(255,255,255,.38); }
+    .c-issuer { text-align: right; }
+    .c-issuer-label { font-size: .5rem; color: rgba(255,255,255,.4); letter-spacing: .08em; text-transform: uppercase; }
+    .c-issuer-value {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: .85rem; font-weight: 700; color: rgba(255,255,255,.7);
+    }
+
+    /* ── STATS STRIP ── */
+    .stats {
+      background: var(--mist); border-bottom: 1px solid var(--border);
+      display: grid; grid-template-columns: repeat(3,1fr);
+    }
+    .stat-item {
+      padding: 40px 32px; text-align: center;
+      border-right: 1px solid var(--border);
+    }
+    .stat-item:last-child { border-right: none; }
+    .stat-num {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 2.6rem; font-weight: 800;
+      color: var(--navy); letter-spacing: -.04em; line-height: 1;
+      margin-bottom: 6px;
+    }
+    .stat-unit { font-size: 1rem; color: var(--gold); font-weight: 700; vertical-align: super; }
+    .stat-label { font-size: .83rem; color: var(--muted); }
+
+    /* ── SECTIONS ── */
+    .section { padding: 80px 5vw; }
+    .sec-tag {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: .7rem; font-weight: 700;
+      letter-spacing: .16em; text-transform: uppercase;
+      color: var(--gold); margin-bottom: 12px;
+    }
+    .sec-heading {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: clamp(1.6rem, 3vw, 2.2rem);
+      font-weight: 800; color: var(--navy);
+      letter-spacing: -.025em; line-height: 1.2; margin-bottom: 40px;
+    }
+
+    /* ── ABOUT ── */
+    .about { background: var(--white); }
+    .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: start; }
+    .about-text p { color: var(--muted); margin-bottom: 16px; font-size: .97rem; line-height: 1.78; }
+    .pillars { display: flex; flex-direction: column; gap: 14px; }
+    .pillar {
+      background: var(--mist); border: 1px solid var(--border);
+      border-left: 4px solid var(--navy); border-radius: 8px; padding: 18px 22px;
+    }
+    .pillar-title {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-weight: 700; font-size: .88rem; color: var(--navy); margin-bottom: 3px;
+    }
+    .pillar-desc { font-size: .83rem; color: var(--muted); line-height: 1.6; }
+
+    /* ── TABS ── */
+    .tabs-section { background: var(--mist); }
+    .tabs-nav {
+      display: flex; gap: 4px;
+      background: var(--white); border: 1px solid var(--border);
+      border-radius: 10px; padding: 4px; margin-bottom: 40px; width: fit-content;
+    }
+    .tab-btn {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: .85rem; font-weight: 600;
+      padding: 10px 24px; border-radius: 7px;
+      border: none; cursor: pointer;
+      background: transparent; color: var(--muted);
+      transition: all .2s; white-space: nowrap;
+    }
+    .tab-btn.active { background: var(--navy); color: var(--white); }
+    .tab-btn:not(.active):hover { color: var(--navy); }
+    .tab-pane { display: none; }
+    .tab-pane.active { display: block; }
+
+    /* checklist */
+    .checklist { list-style: none; display: flex; flex-direction: column; gap: 12px; }
+    .checklist li {
+      display: flex; align-items: flex-start; gap: 12px;
+      font-size: .93rem; line-height: 1.55; color: var(--text);
+    }
+    .ci {
+      flex-shrink: 0; width: 22px; height: 22px;
+      border-radius: 50%; background: var(--forest);
+      display: flex; align-items: center; justify-content: center; margin-top: 1px;
+    }
+    .ci svg { width: 11px; height: 11px; }
+
+    .req-group { margin-bottom: 32px; }
+    .req-label {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: .72rem; font-weight: 700;
+      letter-spacing: .12em; text-transform: uppercase;
+      color: var(--muted); margin-bottom: 14px;
+      padding-bottom: 10px; border-bottom: 1px solid var(--border);
+    }
+    .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; }
+
+    /* doc grid */
+    .doc-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px,1fr)); gap: 14px; }
+    .doc-card {
+      background: var(--white); border: 1px solid var(--border);
+      border-radius: 10px; padding: 18px 20px;
+      display: flex; align-items: flex-start; gap: 14px;
+    }
+    .doc-icon {
+      flex-shrink: 0; width: 36px; height: 36px;
+      background: rgba(11,31,79,.07); border-radius: 8px;
+      display: flex; align-items: center; justify-content: center;
+      color: var(--navy);
+    }
+    .doc-label { font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 600; font-size: .86rem; color: var(--navy); line-height: 1.4; }
+    .doc-note { font-size: .76rem; color: var(--muted); margin-top: 3px; }
+
+    /* steps */
+    .steps { display: flex; flex-direction: column; }
+    .step { display: flex; gap: 20px; position: relative; }
+    .step:not(:last-child)::after {
+      content: ''; position: absolute;
+      left: 19px; top: 42px; bottom: 0;
+      width: 1px; background: var(--border);
+    }
+    .step-num {
+      flex-shrink: 0; width: 38px; height: 38px; border-radius: 50%;
+      background: var(--navy); color: var(--white);
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-weight: 800; font-size: .88rem;
+      display: flex; align-items: center; justify-content: center;
+      position: relative; z-index: 1;
+    }
+    .step-body { padding-bottom: 30px; flex: 1; }
+    .step-title {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-weight: 700; font-size: .93rem;
+      color: var(--navy); margin-bottom: 4px; margin-top: 7px;
+    }
+    .step-desc { font-size: .86rem; color: var(--muted); line-height: 1.65; }
+    .step-link {
+      display: inline-flex; align-items: center; gap: 6px;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: .8rem; font-weight: 600;
+      color: var(--navy); text-decoration: none; margin-top: 8px;
+      padding: 6px 14px; background: var(--mist);
+      border: 1px solid var(--border); border-radius: 6px;
+      transition: background .2s;
+    }
+    .step-link:hover { background: var(--border); }
+
+    /* notice box */
+    .notice-box {
+      background: var(--white); border: 1px solid var(--border);
+      border-radius: 12px; padding: 24px 26px;
+    }
+    .notice-title {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: .72rem; font-weight: 700;
+      letter-spacing: .12em; text-transform: uppercase;
+      color: var(--muted); margin-bottom: 16px;
+      padding-bottom: 10px; border-bottom: 1px solid var(--border);
+    }
+
+    /* ── FAQ ── */
+    .faq-section { background: var(--white); }
+    .faq-list { display: flex; flex-direction: column; max-width: 760px; }
+    .faq-item { border-bottom: 1px solid var(--border); }
+    .faq-btn {
+      width: 100%; background: none; border: none; cursor: pointer;
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 20px 0; text-align: left;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-weight: 700; font-size: .94rem;
+      color: var(--navy); gap: 16px;
+    }
+    .faq-icon {
+      flex-shrink: 0; width: 22px; height: 22px; border-radius: 50%;
+      background: var(--mist); border: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: center;
+      transition: transform .2s, background .2s, border-color .2s;
+    }
+    .faq-item.open .faq-icon {
+      transform: rotate(45deg);
+      background: var(--navy); border-color: var(--navy);
+      color: white;
+    }
+    .faq-ans {
+      display: none; font-size: .89rem;
+      color: var(--muted); padding-bottom: 20px; line-height: 1.72;
+    }
+    .faq-item.open .faq-ans { display: block; }
+
+    /* ── CTA ── */
+    .cta-section {
+      background: var(--navy); padding: 80px 5vw; text-align: center;
+    }
+    .cta-section h2 {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: clamp(1.7rem, 3.5vw, 2.4rem);
+      font-weight: 800; color: var(--white);
+      letter-spacing: -.03em; margin-bottom: 14px;
+    }
+    .cta-section h2 em { color: var(--gold); font-style: normal; }
+    .cta-section p { color: rgba(255,255,255,.58); font-size: .95rem; margin-bottom: 36px; }
+    .cta-btns { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+    .btn-gold {
+      background: var(--gold); color: var(--navy);
+      font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 700; font-size: .9rem;
+      padding: 14px 28px; border-radius: 6px; text-decoration: none;
+      transition: background .2s;
+    }
+    .btn-gold:hover { background: var(--gold-lt); }
+    .btn-outline {
+      background: transparent; color: var(--white);
+      font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 600; font-size: .9rem;
+      padding: 14px 28px; border-radius: 6px;
+      border: 1px solid rgba(255,255,255,.28); text-decoration: none;
+      transition: border-color .2s, color .2s;
+    }
+    .btn-outline:hover { border-color: var(--gold); color: var(--gold); }
+
+    .contacts {
+      margin-top: 52px; padding-top: 40px;
+      border-top: 1px solid rgba(255,255,255,.1);
+      display: flex; gap: 48px; justify-content: center; flex-wrap: wrap;
+    }
+    .contact-item { text-align: center; }
+    .contact-lbl {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: .62rem; letter-spacing: .12em;
+      text-transform: uppercase; color: rgba(255,255,255,.38); margin-bottom: 4px;
+    }
+    .contact-val {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-weight: 700; font-size: .95rem; color: var(--white);
+    }
+
+    footer {
+      background: #07152E; padding: 18px 5vw; text-align: center;
+      font-size: .76rem; color: rgba(255,255,255,.28);
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 860px) {
+      .hero { grid-template-columns: 1fr; min-height: auto; padding: 60px 5vw; }
+      .card-wrap { display: none; }
+      .about-grid, .two-col { grid-template-columns: 1fr; gap: 32px; }
+      .stats { grid-template-columns: 1fr; }
+      .stat-item { border-right: none; border-bottom: 1px solid var(--border); }
+      .stat-item:last-child { border-bottom: none; }
+      .tabs-nav { flex-wrap: wrap; }
+      nav .nav-links { display: none; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { transition: none !important; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">KJ<span>MU</span></div>
+  <ul class="nav-links">
+    <li><a href="#tentang">Tentang</a></li>
+    <li><a href="#panduan">Syarat & Daftar</a></li>
+    <li><a href="#faq">FAQ</a></li>
+    <li><a href="#kontak">Kontak</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-text">
+    <div class="hero-eyebrow">Pemprov DKI Jakarta</div>
+    <h1 class="hero-title">
+      Kuliah penuh,<br>biaya <span class="gold">ditanggung</span><br>dari Jakarta.
+    </h1>
+    <p class="hero-desc">
+      Kartu Jakarta Mahasiswa Unggul (KJMU) adalah program beasiswa penuh dari APBD DKI Jakarta untuk mahasiswa berprestasi dari keluarga tidak mampu — mencakup biaya kuliah dan biaya hidup.
+    </p>
+    <a href="https://p4op.jakarta.go.id/kjmu" target="_blank" class="hero-cta">
+      Daftar Sekarang
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+        <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </a>
+  </div>
+
+  <!-- Signature: CSS KJMU Card -->
+  <div class="card-wrap">
+    <div class="card-stage">
+      <div class="card-shadow"></div>
+      <div class="kjmu-card">
+        <div class="c-top">
+          <div>
+            <span class="c-badge">KJMU</span>
+            <div class="c-gov">Pemerintah Provinsi DKI Jakarta</div>
+          </div>
+          <div class="c-chip"></div>
+        </div>
+        <div>
+          <div class="c-name">Kartu Jakarta Mahasiswa Unggul</div>
+          <div class="c-sub">Bantuan Biaya Peningkatan Mutu Pendidikan</div>
+        </div>
+        <div class="c-bottom">
+          <div>
+            <div class="c-amt-label">Bantuan per Semester</div>
+            <div class="c-amt-value">Rp 9.000.000</div>
+            <div class="c-amt-sub">setara Rp 1.500.000 / bulan</div>
+          </div>
+          <div class="c-issuer">
+            <div class="c-issuer-label">Dibiayai oleh</div>
+            <div class="c-issuer-value">APBD DKI</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- STATS -->
+<div class="stats">
+  <div class="stat-item">
+    <div class="stat-num"><span class="stat-unit">Rp</span>9 Juta</div>
+    <div class="stat-label">Bantuan per semester</div>
+  </div>
+  <div class="stat-item">
+    <div class="stat-num">110<span class="stat-unit">+</span></div>
+    <div class="stat-label">PTN yang bekerja sama</div>
+  </div>
+  <div class="stat-item">
+    <div class="stat-num">16K<span class="stat-unit">+</span></div>
+    <div class="stat-label">Mahasiswa penerima aktif</div>
+  </div>
+</div>
+
+<!-- TENTANG -->
+<section class="section about" id="tentang">
+  <div class="about-grid">
+    <div class="about-text">
+      <div class="sec-tag">Tentang Program</div>
+      <h2 class="sec-heading">Apa itu KJMU?</h2>
+      <p>Kartu Jakarta Mahasiswa Unggul (KJMU) adalah program strategis Pemerintah Provinsi DKI Jakarta berupa bantuan Biaya Peningkatan Mutu Pendidikan bagi mahasiswa dari keluarga tidak mampu secara ekonomi yang memiliki potensi akademik baik.</p>
+      <p>Program ini dibiayai penuh dari APBD Provinsi DKI Jakarta dan terbuka untuk jenjang D3, D4, maupun S1 — baik di Perguruan Tinggi Negeri (PTN) maupun Perguruan Tinggi Swasta (PTS) mitra tertentu di seluruh Indonesia.</p>
+      <p>Bantuan mencakup dua komponen: biaya penyelenggaraan pendidikan (UKT/SPP) yang disalurkan langsung ke rekening kampus, serta biaya pendukung personal yang dikirim ke rekening mahasiswa untuk kebutuhan hidup, buku, dan transportasi.</p>
+    </div>
+    <div class="pillars">
+      <div class="pillar">
+        <div class="pillar-title">Durasi Beasiswa</div>
+        <div class="pillar-desc">S1 / D4 — maks. 8 semester (+ 2 semester perpanjangan)<br>D3 — maks. 6 semester (+ 2 semester perpanjangan)</div>
+      </div>
+      <div class="pillar">
+        <div class="pillar-title">Cakupan Bantuan</div>
+        <div class="pillar-desc">Biaya kuliah (UKT/SPP) + biaya hidup, buku, transportasi, dan perlengkapan perkuliahan lainnya</div>
+      </div>
+      <div class="pillar">
+        <div class="pillar-title">Jalur Kampus</div>
+        <div class="pillar-desc">PTN di bawah Kemendikbudristek & Kemenag, atau PTS terakreditasi A/Unggul dengan prodi A/Unggul di DKI Jakarta</div>
+      </div>
+      <div class="pillar">
+        <div class="pillar-title">Dasar Hukum</div>
+        <div class="pillar-desc">Peraturan Gubernur DKI Jakarta No. 101 Tahun 2021 tentang Pemberian Bantuan Biaya Peningkatan Mutu Pendidikan</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TABS: Syarat / Dokumen / Cara Daftar -->
+<section class="section tabs-section" id="panduan">
+  <div class="sec-tag">Panduan Lengkap</div>
+  <h2 class="sec-heading">Syarat, Dokumen & Cara Daftar</h2>
+
+  <div class="tabs-nav" role="tablist">
+    <button class="tab-btn active" data-tab="t-syarat">Persyaratan</button>
+    <button class="tab-btn" data-tab="t-dokumen">Dokumen</button>
+    <button class="tab-btn" data-tab="t-daftar">Cara Daftar</button>
+  </div>
+
+  <!-- Tab: Persyaratan -->
+  <div class="tab-pane active" id="t-syarat">
+    <div class="two-col">
+      <div>
+        <div class="req-group">
+          <div class="req-label">Persyaratan Umum</div>
+          <ul class="checklist">
+            <li>
+              <span class="ci"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6l3 3 5-5" stroke="#fff" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+              Berdomisili dan memiliki KTP serta Kartu Keluarga (KK) DKI Jakarta
+            </li>
+            <li>
+              <span class="ci"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6l3 3 5-5" stroke="#fff" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+              Berasal dari keluarga tidak mampu — terdaftar dalam DTKS dan/atau DTKS Daerah, atau warga binaan sosial Dinas Sosial DKI Jakarta
+            </li>
+            <li>
+              <span class="ci"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6l3 3 5-5" stroke="#fff" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+              Tidak sedang menerima beasiswa atau bantuan pendidikan lain yang bersumber dari APBN maupun APBD
+            </li>
+            <li>
+              <span class="ci"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6l3 3 5-5" stroke="#fff" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+              Anggota keluarga dalam satu KK tidak ada yang berstatus ASN (PNS/PPPK), TNI/Polri, atau anggota legislatif
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div>
+        <div class="req-group">
+          <div class="req-label">Persyaratan Khusus — Calon Mahasiswa Baru</div>
+          <ul class="checklist">
+            <li>
+              <span class="ci"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6l3 3 5-5" stroke="#fff" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+              Lulus SMA/SMK/MA atau sederajat dari satuan pendidikan negeri/swasta di DKI Jakarta, paling lama <strong>3 tahun</strong> sebelumnya
+            </li>
+            <li>
+              <span class="ci"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6l3 3 5-5" stroke="#fff" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+              Dinyatakan lulus di PTN jalur reguler di bawah naungan Kemendikbudristek atau Kemenag; <strong>ATAU</strong>
+            </li>
+            <li>
+              <span class="ci"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6l3 3 5-5" stroke="#fff" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+              Dinyatakan lulus di PTS jalur reguler terakreditasi A/Unggul dengan program studi terakreditasi A/Unggul di DKI Jakarta
+            </li>
+          </ul>
+        </div>
+        <div class="req-group">
+          <div class="req-label">Persyaratan Khusus — Mahasiswa On-Going</div>
+          <ul class="checklist">
+            <li>
+              <span class="ci"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6l3 3 5-5" stroke="#fff" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+              Memenuhi seluruh persyaratan umum dan khusus di atas
+            </li>
+            <li>
+              <span class="ci"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6l3 3 5-5" stroke="#fff" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+              Pengajuan sebagai penerima baru KJMU <strong>dibatasi hingga semester 4</strong> — mahasiswa yang sudah menempuh semester 5 ke atas tidak diizinkan mendaftar pertama kali
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Tab: Dokumen -->
+  <div class="tab-pane" id="t-dokumen">
+    <div class="doc-grid">
+      <div class="doc-card">
+        <div class="doc-icon">
+          <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+        </div>
+        <div>
+          <div class="doc-label">Surat Permohonan Bantuan Biaya</div>
+          <div class="doc-note">Format ditentukan oleh tim KJMU / sekolah asal</div>
+        </div>
+      </div>
+      <div class="doc-card">
+        <div class="doc-icon">
+          <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        </div>
+        <div>
+          <div class="doc-label">Surat Pernyataan Tidak Mampu</div>
+          <div class="doc-note">Bermaterai, diketahui orang tua & ketua RT</div>
+        </div>
+      </div>
+      <div class="doc-card">
+        <div class="doc-icon">
+          <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg>
+        </div>
+        <div>
+          <div class="doc-label">Surat Pernyataan Ketaatan Penggunaan</div>
+          <div class="doc-note">Menyatakan penggunaan dana sesuai ketentuan</div>
+        </div>
+      </div>
+      <div class="doc-card">
+        <div class="doc-icon">
+          <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="2"/><line x1="7" y1="9" x2="17" y2="9"/><line x1="7" y1="13" x2="13" y2="13"/></svg>
+        </div>
+        <div>
+          <div class="doc-label">Fotokopi KTP</div>
+          <div class="doc-note">Domisili DKI Jakarta</div>
+        </div>
+      </div>
+      <div class="doc-card">
+        <div class="doc-icon">
+          <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg>
+        </div>
+        <div>
+          <div class="doc-label">Fotokopi Kartu Keluarga (KK)</div>
+          <div class="doc-note">Domisili DKI Jakarta</div>
+        </div>
+      </div>
+      <div class="doc-card">
+        <div class="doc-icon">
+          <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10H3M21 6H3M21 14H3M21 18H3"/></svg>
+        </div>
+        <div>
+          <div class="doc-label">Surat Keterangan Tidak Mampu (SKTM)</div>
+          <div class="doc-note">Diketahui orang tua & ketua RT setempat</div>
+        </div>
+      </div>
+      <div class="doc-card">
+        <div class="doc-icon">
+          <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c0 1.657 2.686 3 6 3s6-1.343 6-3v-5"/></svg>
+        </div>
+        <div>
+          <div class="doc-label">Bukti Pendaftaran / Nomor Ujian PTN</div>
+          <div class="doc-note">Dari jalur seleksi masuk yang digunakan</div>
+        </div>
+      </div>
+      <div class="doc-card">
+        <div class="doc-icon">
+          <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
+        </div>
+        <div>
+          <div class="doc-label">Fotokopi KJP <em style="font-style:normal;font-weight:400;">(jika ada)</em></div>
+          <div class="doc-note">Jika sebelumnya pernah menerima KJP</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Tab: Cara Daftar -->
+  <div class="tab-pane" id="t-daftar">
+    <div class="two-col">
+      <div>
+        <p style="font-size:.88rem;color:var(--muted);margin-bottom:28px;line-height:1.75;">Pendaftaran dilakukan secara online melalui portal P4OP setelah dinyatakan lulus dari pendidikan menengah atau selama masih aktif berkuliah hingga semester 4.</p>
+        <div class="steps">
+          <div class="step">
+            <div class="step-num">1</div>
+            <div class="step-body">
+              <div class="step-title">Akses Portal Resmi KJMU</div>
+              <div class="step-desc">Buka portal pendaftaran KJMU. Pilih menu <em>Pendaftaran</em> lalu klik tombol <em>DAFTAR KJMU</em>.</div>
+              <a href="https://p4op.jakarta.go.id/kjmu" target="_blank" class="step-link">
+                p4op.jakarta.go.id/kjmu
+                <svg width="11" height="11" viewBox="0 0 12 12" fill="none"><path d="M2 10L10 2M10 2H5M10 2v5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
+              </a>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-num">2</div>
+            <div class="step-body">
+              <div class="step-title">Buat Akun & Aktivasi Email</div>
+              <div class="step-desc">Isi kelengkapan data di menu <em>REGISTER</em>, lalu cek email yang didaftarkan untuk melakukan aktivasi akun sebelum login.</div>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-num">3</div>
+            <div class="step-body">
+              <div class="step-title">Isi Formulir & Unggah Dokumen</div>
+              <div class="step-desc">Login dan lengkapi formulir pendaftaran. Unggah seluruh dokumen persyaratan dalam format yang diminta.</div>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-num">4</div>
+            <div class="step-body">
+              <div class="step-title">Verifikasi SPTJM oleh Kampus</div>
+              <div class="step-desc">Kampus melakukan verifikasi data dan mengunggah Surat Pernyataan Tanggung Jawab Mutlak (SPTJM) ke sistem.</div>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-num">5</div>
+            <div class="step-body">
+              <div class="step-title">Verifikasi Dinas Pendidikan DKI</div>
+              <div class="step-desc">Dinas Pendidikan Provinsi DKI Jakarta melakukan verifikasi akhir dan mengumumkan calon penerima KJMU.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div>
+        <div class="notice-box">
+          <div class="notice-title">Catatan Penting</div>
+          <ul class="checklist">
+            <li>
+              <span class="ci" style="background:var(--gold);">
+                <svg viewBox="0 0 12 12" fill="none"><path d="M6 2v4l2 2" stroke="#0B1F4F" stroke-width="1.6" stroke-linecap="round"/></svg>
+              </span>
+              Pendaftaran calon mahasiswa baru diajukan melalui <strong>SMA/SMK/MA asal</strong>, bukan langsung ke Dinas Pendidikan
+            </li>
+            <li>
+              <span class="ci" style="background:var(--gold);">
+                <svg viewBox="0 0 12 12" fill="none"><path d="M6 2v4l2 2" stroke="#0B1F4F" stroke-width="1.6" stroke-linecap="round"/></svg>
+              </span>
+              Pendaftaran dibuka dalam <strong>2 tahap per tahun</strong> — selalu pantau portal P4OP untuk jadwal terbaru
+            </li>
+            <li>
+              <span class="ci" style="background:var(--gold);">
+                <svg viewBox="0 0 12 12" fill="none"><path d="M6 2v4l2 2" stroke="#0B1F4F" stroke-width="1.6" stroke-linecap="round"/></svg>
+              </span>
+              Mulai 2026, Gubernur Pramono Anung merencanakan pendaftaran cukup dilakukan <strong>satu kali</strong> hingga lulus
+            </li>
+            <li>
+              <span class="ci" style="background:var(--gold);">
+                <svg viewBox="0 0 12 12" fill="none"><path d="M6 2v4l2 2" stroke="#0B1F4F" stroke-width="1.6" stroke-linecap="round"/></svg>
+              </span>
+              Target penerima akan ditingkatkan dari <strong>15.000 menjadi 20.000</strong> mahasiswa dalam waktu dekat
+            </li>
+            <li>
+              <span class="ci" style="background:var(--gold);">
+                <svg viewBox="0 0 12 12" fill="none"><path d="M6 2v4l2 2" stroke="#0B1F4F" stroke-width="1.6" stroke-linecap="round"/></svg>
+              </span>
+              Penerima yang melanggar ketentuan dapat dikenai sanksi penarikan dan penghentian bantuan
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="section faq-section" id="faq">
+  <div class="sec-tag">Tanya Jawab</div>
+  <h2 class="sec-heading">Pertanyaan Umum</h2>
+  <div class="faq-list">
+    <div class="faq-item">
+      <button class="faq-btn">
+        Apakah penerima KIP-Kuliah bisa mendaftar KJMU?
+        <span class="faq-icon"><svg width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M2 2l6 6M8 2L2 8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></span>
+      </button>
+      <div class="faq-ans">Tidak. Salah satu syarat KJMU adalah tidak menerima beasiswa atau bantuan pendidikan lain yang bersumber dari APBN atau APBD. KIP-Kuliah bersumber dari APBN, sehingga penerimanya tidak memenuhi syarat KJMU dan tidak bisa mendaftar bersamaan.</div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-btn">
+        Saya kuliah di luar Jakarta, apakah bisa mendaftar KJMU?
+        <span class="faq-icon"><svg width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M2 2l6 6M8 2L2 8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></span>
+      </button>
+      <div class="faq-ans">Bisa, selama kampus Anda merupakan PTN yang telah menjalin Perjanjian Kerjasama dengan Pemprov DKI Jakarta. Saat ini terdapat lebih dari 110 PTN yang terdaftar di seluruh Indonesia, termasuk UI, UGM, ITS, Unibraw, UIN, dan banyak lagi.</div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-btn">
+        Saya mahasiswa semester 3, apakah masih bisa mendaftar?
+        <span class="faq-icon"><svg width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M2 2l6 6M8 2L2 8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></span>
+      </button>
+      <div class="faq-ans">Ya, masih bisa. Batas maksimal pengajuan sebagai penerima baru KJMU adalah semester 4. Jika saat ini Anda berada di semester 3, Anda masih memenuhi syarat tersebut. Mahasiswa yang sudah menempuh semester 5 ke atas tidak diizinkan mendaftar untuk pertama kali.</div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-btn">
+        Bagaimana dana KJMU disalurkan?
+        <span class="faq-icon"><svg width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M2 2l6 6M8 2L2 8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></span>
+      </button>
+      <div class="faq-ans">Dana sebesar Rp 9.000.000 per semester dibagi dua komponen. Biaya penyelenggaraan pendidikan (UKT/SPP) disalurkan langsung ke rekening kampus melalui mekanisme pendebetan. Biaya pendukung personal — untuk kebutuhan hidup, buku, dan transportasi — dikirim langsung ke rekening masing-masing mahasiswa penerima.</div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-btn">
+        Apakah KJMU bisa diperpanjang setelah habis masa studinya?
+        <span class="faq-icon"><svg width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M2 2l6 6M8 2L2 8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></span>
+      </button>
+      <div class="faq-ans">Ya. Program S1 dan D4 mendapat durasi dasar 8 semester dengan perpanjangan hingga 2 semester tambahan. Program D3 mendapat durasi dasar 6 semester dengan perpanjangan hingga 2 semester, selama mahasiswa memenuhi ketentuan yang berlaku dari Dinas Pendidikan.</div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-btn">
+        Saya kuliah di PTS, apakah bisa mendaftar KJMU?
+        <span class="faq-icon"><svg width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M2 2l6 6M8 2L2 8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></span>
+      </button>
+      <div class="faq-ans">Bisa, namun dengan syarat ketat: kampus PTS wajib terakreditasi A atau Unggul, program studi yang diambil juga harus terakreditasi A atau Unggul, PTS tersebut berlokasi di DKI Jakarta, dan masuk dalam daftar mitra KJMU sesuai Rencana Pembangunan Jangka Menengah Daerah (RPJMD) tahun berjalan.</div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section" id="kontak">
+  <h2>Siap wujudkan masa depanmu <em>bersama KJMU?</em></h2>
+  <p>Daftar sekarang melalui portal resmi atau hubungi tim P4OP Dinas Pendidikan DKI Jakarta untuk informasi lebih lanjut.</p>
+  <div class="cta-btns">
+    <a href="https://p4op.jakarta.go.id/kjmu" target="_blank" class="btn-gold">Daftar di Portal Resmi</a>
+    <a href="https://kjp.jakarta.go.id" target="_blank" class="btn-outline">Info Lengkap KJP Plus</a>
+  </div>
+  <div class="contacts">
+    <div class="contact-item">
+      <div class="contact-lbl">WhatsApp Pengaduan</div>
+      <div class="contact-val">0852-1124-7089</div>
+    </div>
+    <div class="contact-item">
+      <div class="contact-lbl">Telepon</div>
+      <div class="contact-val">021-857-1012</div>
+    </div>
+    <div class="contact-item">
+      <div class="contact-lbl">Portal Pendaftaran</div>
+      <div class="contact-val">p4op.jakarta.go.id/kjmu</div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  Informasi disusun berdasarkan data resmi Pemprov DKI Jakarta dan P4OP Dinas Pendidikan. Selalu cek portal resmi untuk jadwal dan ketentuan terbaru.
+</footer>
+
+<script>
+  // Tabs
+  document.querySelectorAll('.tab-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+      document.querySelectorAll('.tab-pane').forEach(p => p.classList.remove('active'));
+      btn.classList.add('active');
+      document.getElementById(btn.dataset.tab).classList.add('active');
+    });
+  });
+
+  // FAQ accordion
+  document.querySelectorAll('.faq-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const item = btn.closest('.faq-item');
+      const isOpen = item.classList.contains('open');
+      document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+      if (!isOpen) item.classList.add('open');
+    });
+  });
+</script>
+</body>
+</html>
